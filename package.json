@@ -2,8 +2,9 @@
   "author": "Declan Possnett",
   "type": "module",
   "scripts": {
-    "dev": "rm -rf dist && tsc-watch --onSuccess \"node ./dist/index.js\"",
-    "start": "rm -rf dist && tsc && node dist/index.js"
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.9.0",
@@ -11,14 +12,15 @@
     "express": "^5.1.0",
     "figlet": "^1.9.3",
     "openai": "^6.7.0",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/node": "^24.10.1",
     "@types/pg": "^8.15.6",
-    "ts-node": "^10.9.2",
     "tsc-watch": "^7.2.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4"
   }
 }

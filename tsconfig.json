@@ -1,32 +1,15 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "module": "nodenext",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "module": "esnext",
     "target": "esnext",
-    "types": ["node"],
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "noEmitOnError": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "strict": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true
+    "strict": true
   },
-
   "include": ["src"],
   "exclude": ["node_modules"]
 }

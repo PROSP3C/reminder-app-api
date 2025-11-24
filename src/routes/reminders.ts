@@ -1,8 +1,8 @@
 import { Router, type Request, type Response } from 'express'
-import pool from '../db.js'
-import { asyncHandler } from 'src/utils/asyncHandler.js'
-import { NotFoundError } from 'src/utils/errors.js'
-import { successResponse } from 'src/utils/response.js'
+import pool from '@/db'
+import { asyncHandler } from '@/utils/asyncHandler'
+import { NotFoundError } from '@/utils/errors'
+import { successResponse } from '@/utils/response'
 
 const router = Router()
 

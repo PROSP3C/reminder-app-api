@@ -3,9 +3,9 @@ import express, {
   type Response,
   type NextFunction,
 } from 'express'
-import remindersRouter from './routes/reminders.js'
-import { AppError } from './utils/errors.js'
-import { errorResponse } from './utils/response.js'
+import remindersRouter from '@/routes/reminders'
+import { AppError } from '@/utils/errors'
+import { errorResponse } from '@/utils/response'
 
 const app = express()
 const PORT = process.env.PORT || 3000
