@@ -39,9 +39,8 @@ export default defineConfig({
   plugins: [
     ...VitePluginNode({
       adapter: 'express',
-
       appPath: 'src/index.ts',
-
+      exportName: 'DPReminderAppApi',
       reloadAppOnFileChange: true,
     }),
   ],

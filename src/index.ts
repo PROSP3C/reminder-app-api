@@ -35,4 +35,4 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-export const viteNodeApp = app
+export const DPReminderAppApi = app
