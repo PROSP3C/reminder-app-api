@@ -17,7 +17,7 @@ app.use(express.json())
 app.get('/reminders', async (req: Request, res: Response) => {
   try {
     const result = await pool.query(`SELECT * FROM reminders LIMIT 1`)
-    res.json(result)
+    res.json(result.rows)
   } catch (error) {
     console.error(error)
     res.status(500).send('Server error')
