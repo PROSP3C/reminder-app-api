@@ -3,6 +3,7 @@ import pool from '@/db'
 import { asyncHandler } from '@/utils/asyncHandler'
 import { NotFoundError } from '@/utils/errors'
 import { successResponse } from '@/utils/response'
+import { authenticate } from '@/middleware/auth'
 
 const router = Router()
 
@@ -28,5 +29,7 @@ router.get(
     res.json(successResponse(result.rows[0]))
   }),
 )
+
+router.use(authenticate)
 
 export default router
