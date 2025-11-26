@@ -5,6 +5,7 @@ import { asyncHandler } from '@/utils/asyncHandler'
 import rateLimit from 'express-rate-limit'
 import pool from '@/db'
 import { z } from 'zod'
+import { randomUUID } from 'crypto'
 
 const router = Router()
 
@@ -48,8 +49,8 @@ router.post(
     }
 
     const user = await pool.query(
-      `INSERT INTO users (email, password, name, createdAt) VALUES ($1, $2, $3, NOW()) RETURNING *`,
-      [formattedEmail, hashedPassword, formattedName],
+      `INSERT INTO users (id, email, password, name, createdAt) VALUES ($1, $2, $3, $4, NOW()) RETURNING *`,
+      [randomUUID(), formattedEmail, hashedPassword, formattedName],
     )
 
     return res.status(201).json(successResponse(user.rows))
