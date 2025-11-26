@@ -2,10 +2,18 @@ import { Router, type Request, type Response } from 'express'
 import pool from '@/db'
 import { asyncHandler } from '@/utils/asyncHandler'
 import { NotFoundError } from '@/utils/errors'
-import { successResponse } from '@/utils/response'
+import { errorResponse, successResponse } from '@/utils/response'
 import { authenticate } from '@/middleware/auth'
+import { z } from 'zod'
 
 const router = Router()
+
+const reminderSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().default(''),
+  date: z.date().nullable(),
+  completed: z.boolean().default(false),
+})
 
 router.get(
   '/',
@@ -29,6 +37,26 @@ router.get(
     }
 
     res.json(successResponse(result.rows[0]))
+  }),
+)
+
+router.post(
+  '/',
+  authenticate,
+  asyncHandler(async (req: Request, res: Response) => {
+    const reminder = reminderSchema.safeParse(req.body)
+    if (!reminder.success) {
+      return res.status(400).json(errorResponse('Invalid input'))
+    }
+
+    const { title, description, date, completed } = reminder.data
+
+    const newReminder = await pool.query(
+      `INSERT INTO reminders title, description, date, completed VALUES $1, $2, $3, $4 RETURNING *`,
+      [title, description, date, completed],
+    )
+
+    return res.status(201).json(successResponse(newReminder.rows[0]))
   }),
 )
 
