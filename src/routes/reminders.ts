@@ -21,7 +21,7 @@ router.get(
   authenticate,
   asyncHandler(async (req: Request, res: Response) => {
     const result = await pool.query(`SELECT * FROM reminders LIMIT 10`)
-    res.json(successResponse(result.rows))
+    return res.json(successResponse(result.rows))
   }),
 )
 
@@ -37,7 +37,7 @@ router.get(
       throw new NotFoundError('Reminder not found')
     }
 
-    res.json(successResponse(result.rows[0]))
+    return res.json(successResponse(result.rows[0]))
   }),
 )
 
