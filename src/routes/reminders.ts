@@ -2,7 +2,7 @@ import { Router, type Request, type Response } from 'express'
 import pool from '@/db'
 import { asyncHandler } from '@/utils/asyncHandler'
 import { NotFoundError, ValidationError } from '@/utils/errors'
-import { errorResponse, successResponse } from '@/utils/response'
+import { successResponse } from '@/utils/response'
 import { authenticate } from '@/middleware/auth'
 import { z } from 'zod'
 import { randomUUID } from 'crypto'
@@ -77,7 +77,7 @@ router.patch(
 
     const { title, description, date, completed } = reminder.data
 
-    const newReminder = await pool.query(
+    const updatedReminder = await pool.query(
       `UPDATE reminders SET title = $1, description = $2, date = $3, completed = $4 WHERE id = $5 AND userId = $6 RETURNING *`,
       [
         title,
@@ -89,7 +89,11 @@ router.patch(
       ],
     )
 
-    return res.status(200).json(successResponse(newReminder.rows[0]))
+    if (!updatedReminder.rowCount) {
+      throw new NotFoundError('Reminder not found')
+    }
+
+    return res.status(200).json(successResponse(updatedReminder.rows[0]))
   }),
 )
 
@@ -103,7 +107,7 @@ router.delete(
     )
 
     if (!result.rowCount) {
-      return res.status(404).json(errorResponse('Reminder not found'))
+      throw new NotFoundError('Reminder not found')
     }
 
     return res.status(204).send()
