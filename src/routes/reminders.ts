@@ -21,6 +21,7 @@ router.get(
   authenticate,
   asyncHandler(async (req: Request, res: Response) => {
     const result = await pool.query(`SELECT * FROM reminders LIMIT 10`)
+
     return res.json(successResponse(result.rows))
   }),
 )
@@ -58,6 +59,36 @@ router.post(
     )
 
     return res.status(201).json(successResponse(newReminder.rows[0]))
+  }),
+)
+
+router.patch(
+  '/:id',
+  authenticate,
+  asyncHandler(async (req: Request, res: Response) => {
+    const reminder = reminderSchema.safeParse(req.body)
+    if (!reminder.success) {
+      return res.status(400).json(errorResponse('Invalid input'))
+    }
+
+    const { title, description, date, completed } = reminder.data
+
+    const newReminder = await pool.query(
+      `UPDATE reminders SET title = $1, description = $2, date = $3, completed = $4 WHERE id = $5 RETURNING *`,
+      [title, description, date, completed, req.params.id],
+    )
+
+    return res.status(200).json(successResponse(newReminder.rows[0]))
+  }),
+)
+
+router.delete(
+  '/:id',
+  authenticate,
+  asyncHandler(async (req: Request, res: Response) => {
+    await pool.query(`DELETE FROM reminders WHERE id = $1`, [req.params.id])
+
+    return res.status(204).json(successResponse('Reminder deleted'))
   }),
 )
 
