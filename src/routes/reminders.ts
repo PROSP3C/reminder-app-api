@@ -33,7 +33,7 @@ router.get(
       req.params.id,
     ])
 
-    if (result.rows.length === 0) {
+    if (!result.rowCount) {
       throw new NotFoundError('Reminder not found')
     }
 
