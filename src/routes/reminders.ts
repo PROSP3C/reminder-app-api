@@ -9,6 +9,7 @@ const router = Router()
 
 router.get(
   '/',
+  authenticate,
   asyncHandler(async (req: Request, res: Response) => {
     const result = await pool.query(`SELECT * FROM reminders LIMIT 10`)
     res.json(successResponse(result.rows))
@@ -17,6 +18,7 @@ router.get(
 
 router.get(
   '/:id',
+  authenticate,
   asyncHandler(async (req: Request, res: Response) => {
     const result = await pool.query(`SELECT * FROM reminders WHERE id = $1`, [
       req.params.id,
@@ -29,7 +31,5 @@ router.get(
     res.json(successResponse(result.rows[0]))
   }),
 )
-
-router.use(authenticate)
 
 export default router
