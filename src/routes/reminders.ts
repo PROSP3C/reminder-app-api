@@ -102,7 +102,7 @@ router.delete(
       [req.params.id, (req as any).user.id],
     )
 
-    if (!result.rowCount) {
+    if (result.rowCount === 0) {
       return res.status(404).json(errorResponse('Reminder not found'))
     }
 
