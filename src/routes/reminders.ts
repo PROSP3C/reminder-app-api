@@ -4,7 +4,8 @@ import { asyncHandler } from '@/utils/asyncHandler'
 import { NotFoundError } from '@/utils/errors'
 import { errorResponse, successResponse } from '@/utils/response'
 import { authenticate } from '@/middleware/auth'
-import { z } from 'zod'
+import { uuid, z } from 'zod'
+import { randomUUID } from 'crypto'
 
 const router = Router()
 
@@ -52,8 +53,8 @@ router.post(
     const { title, description, date, completed } = reminder.data
 
     const newReminder = await pool.query(
-      `INSERT INTO reminders (title, description, date, completed) VALUES ($1, $2, $3, $4) RETURNING *`,
-      [title, description, date, completed],
+      `INSERT INTO reminders (id, title, description, date, completed) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [randomUUID(), title, description, date, completed],
     )
 
     return res.status(201).json(successResponse(newReminder.rows[0]))
