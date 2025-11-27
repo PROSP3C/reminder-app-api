@@ -1,16 +1,12 @@
 import { Router, type Response } from 'express'
 import pool from '@/db'
 import { asyncHandler } from '@/utils/asyncHandler'
-import {
-  NotFoundError,
-  UnauthorizedError,
-  ValidationError,
-} from '@/utils/errors'
+import { NotFoundError, ValidationError } from '@/utils/errors'
 import { successResponse } from '@/utils/response'
 import { authenticate } from '@/middleware/auth'
 import { z } from 'zod'
 import { randomUUID } from 'crypto'
-import { AuthRequest } from './types'
+import { AuthedRequest } from './types'
 
 const router = Router()
 
@@ -24,11 +20,7 @@ const reminderSchema = z.object({
 router.get(
   '/',
   authenticate,
-  asyncHandler(async (req: AuthRequest, res: Response) => {
-    if (!req.user?.id) {
-      throw new UnauthorizedError('Not authorized')
-    }
-
+  asyncHandler(async (req: AuthedRequest, res: Response) => {
     const result = await pool.query(
       `SELECT * FROM reminders WHERE userId = $1 LIMIT 10`,
       [req.user.id],
@@ -41,11 +33,7 @@ router.get(
 router.get(
   '/:id',
   authenticate,
-  asyncHandler(async (req: AuthRequest, res: Response) => {
-    if (!req.user?.id) {
-      throw new UnauthorizedError('Not authorized')
-    }
-
+  asyncHandler(async (req: AuthedRequest, res: Response) => {
     const result = await pool.query(
       `SELECT * FROM reminders WHERE id = $1 AND userId = $2`,
       [req.params.id, req.user.id],
@@ -62,11 +50,7 @@ router.get(
 router.post(
   '/',
   authenticate,
-  asyncHandler(async (req: AuthRequest, res: Response) => {
-    if (!req.user?.id) {
-      throw new UnauthorizedError('Not authorized')
-    }
-
+  asyncHandler(async (req: AuthedRequest, res: Response) => {
     const reminder = reminderSchema.safeParse(req.body)
     if (!reminder.success) {
       throw new ValidationError('Invalid input')
@@ -86,11 +70,7 @@ router.post(
 router.patch(
   '/:id',
   authenticate,
-  asyncHandler(async (req: AuthRequest, res: Response) => {
-    if (!req.user?.id) {
-      throw new UnauthorizedError('Not authorized')
-    }
-
+  asyncHandler(async (req: AuthedRequest, res: Response) => {
     const reminder = reminderSchema.safeParse(req.body)
     if (!reminder.success) {
       throw new ValidationError('Invalid input')
@@ -114,11 +94,7 @@ router.patch(
 router.delete(
   '/:id',
   authenticate,
-  asyncHandler(async (req: AuthRequest, res: Response) => {
-    if (!req.user?.id) {
-      throw new UnauthorizedError('Not authorized')
-    }
-
+  asyncHandler(async (req: AuthedRequest, res: Response) => {
     const result = await pool.query(
       `DELETE FROM reminders WHERE id = $1 AND userId = $2`,
       [req.params.id, req.user.id],

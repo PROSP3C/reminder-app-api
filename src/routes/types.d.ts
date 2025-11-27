@@ -11,3 +11,7 @@ interface User {
 export interface AuthRequest extends Request {
   user?: User
 }
+
+export interface AuthedRequest extends Request {
+  user: User
+}
