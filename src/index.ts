@@ -22,6 +22,8 @@ app.use(
   }),
 )
 
+app.options('*', cors())
+
 app.use('/auth', authRouter)
 app.use('/reminders', remindersRouter)
 
