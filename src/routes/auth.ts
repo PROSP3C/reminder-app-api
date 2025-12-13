@@ -98,7 +98,7 @@ router.post(
       .cookie('token', token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'lax',
+        sameSite: 'none',
       })
       .json(successResponse(safeUser))
   }),
