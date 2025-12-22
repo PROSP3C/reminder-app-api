@@ -4,7 +4,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es2020",
     "resolveJsonModule": true,
     "moduleResolution": "node",
