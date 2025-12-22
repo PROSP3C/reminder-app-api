@@ -46,10 +46,10 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   return res.status(500).json(errorResponse('Internal Server Error'))
 })
 
-if (process.env.NODE_ENV === 'production') {
-  app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`)
-  })
-}
+// if (process.env.NODE_ENV === 'production') {
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`)
+})
+// }
 
 export const DPReminderAppApi = app
