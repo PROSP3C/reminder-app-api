@@ -16,18 +16,26 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(cookieParser())
 
+// app.use(
+//   cors({
+//     origin: [
+//       'capacitor://localhost',
+//       'http://localhost',
+//       'http://localhost:9000',
+//       'https://reminder-app-api-production.up.railway.app',
+//       'http://192.168.1.99:9500',
+//     ],
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,
+//   }),
+// )
+
 app.use(
   cors({
-    origin: [
-      'capacitor://localhost',
-      'http://localhost',
-      'http://localhost:9000',
-      'https://reminder-app-api-production.up.railway.app',
-      'http://192.168.1.99:9500',
-    ],
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    allowedHeaders: ['*'],
   }),
 )
 
