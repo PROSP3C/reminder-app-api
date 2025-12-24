@@ -23,6 +23,7 @@ app.use(
       'http://localhost',
       'http://localhost:9000',
       'https://reminder-app-api-production.up.railway.app',
+      'http://192.168.1.99:9500',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
